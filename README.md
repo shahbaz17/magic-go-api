@@ -7,7 +7,7 @@ This Go server is where all of the Magic Go API requests are handled. Once the u
 # API Endpoints
 
 - Unprotected Home Endpoint: http://localhost:9000/
-- Protected Endpoint: http://localhost:8080/protected
+- Protected Endpoint: http://localhost:9000/protected
 
 # Dependencies
 
