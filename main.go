@@ -22,7 +22,7 @@ const authBearer = "Bearer"
 var err = godotenv.Load(".env")
 
 // Get env variables
-var magicSecretKey = os.Getenv("MAGIC_TEST_SECRET_KEY")
+var magicSecretKey = os.Getenv("MAGIC_SECRET_KEY")
 
 // Instantiate Magic ✨
 var magicSDK = client.New(magicSecretKey, magic.NewDefaultClient())
@@ -53,6 +53,16 @@ func checkBearerToken(next httpHandlerFunc) httpHandlerFunc {
 			fmt.Fprintf(res, "DID token failed validation: %s", err.Error())
 			return
 	  }
+
+		userInfo, err := magicSDK.User.GetMetadataByToken(didToken)
+    if err != nil {
+        fmt.Fprintf(res, "Error: %s", err.Error())
+        return
+    }
+
+		fmt.Fprintf(res, "Email: %s \n", userInfo.Email)
+		fmt.Fprintf(res, "Issuer: %s \n", userInfo.Issuer)
+		fmt.Fprintf(res, "PublicAddress: %s \n", userInfo.PublicAddress)
 		
 		next(res, req)
 	}
